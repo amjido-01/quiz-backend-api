@@ -1,9 +1,10 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import routes from "./routes/index"
 import authRoutes from "./routes/authRoutes"
-
+import userRoutes from "./routes/userRoutes"
+import quizRoutes from "./routes/quizRoutes"
+ 
 
 const app: Application = express();
 
@@ -46,6 +47,8 @@ app.get('/', (req: Request, res: Response) => {
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
+app.use("/api/v1/user", userRoutes)
+app.use("/api/v1", quizRoutes); 
 
 
 export default app;
