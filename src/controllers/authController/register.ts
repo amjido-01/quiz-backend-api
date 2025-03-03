@@ -44,6 +44,13 @@ export const register = async (req: Request, res: Response): Promise<any> => {
             email: user.email
         })
 
+        
+      // Save refreshToken in the database
+        const updatedUser = await prisma.user.update({
+            where: { id: user.id }, // Use the user's ID to update the record
+            data: { refreshToken }
+        });
+
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
@@ -56,7 +63,11 @@ export const register = async (req: Request, res: Response): Promise<any> => {
             responseSuccessful: true,
             responseMessage: 'User created successfully',
             responseBody: {
-                user,
+                user: {
+                    id: updatedUser.id,
+                    name: updatedUser.name,
+                    email: updatedUser.email,
+                  },
                 accessToken,
                 refreshToken
             }
