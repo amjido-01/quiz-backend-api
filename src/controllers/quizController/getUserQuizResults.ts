@@ -20,7 +20,7 @@ export const getUserQuizResults = async (req: Request, res: Response) => {
             where: { userId },
             include: {
                 quiz: true, // Include quiz details
-                responses: {
+                answers: {
                     include: { question: true } // Include user's responses with questions
                 }
             },
