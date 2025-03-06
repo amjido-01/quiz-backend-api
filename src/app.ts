@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser"
 import authRoutes from "./routes/authRoutes"
 import userRoutes from "./routes/userRoutes"
 import quizRoutes from "./routes/quizRoutes"
- 
+import quizAttemptRoutes from "./routes/quizAttemptRoutes" 
 
 const app: Application = express();
 
@@ -48,7 +48,8 @@ app.get('/', (req: Request, res: Response) => {
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use("/api/v1/user", userRoutes)
-app.use("/api/v1", quizRoutes); 
+app.use("/api/v1/quizzes", quizRoutes); 
+app.use("/api/v1/quiz-attempts", quizAttemptRoutes)
 
 
 export default app;

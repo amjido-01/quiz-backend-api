@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,60 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  password    String
   refreshToken String?
-  quizzes   QuizAttempt[]  // Relationship with quiz attempts
-  createdAt DateTime @default(now())
+  quizzes     QuizAttempt[]  // Relationship with quiz attempts
+  createdAt   DateTime     @default(now())
 }
-
 
 model Quiz {
-  id         String   @id @default(uuid())
-  title      String
-  category   String
-  difficulty String   // Easy, Medium, Hard
-   questions Question[]
-  attempts  QuizAttempt[]
-  createdAt  DateTime @default(now())
+  id          String       @id @default(uuid())
+  title       String
+  category    String
+  difficulty  String       // Easy, Medium, Hard
+  questions   Question[]
+  attempts    QuizAttempt[]
+  createdAt   DateTime     @default(now())
 }
-
 
 model Question {
-  id            String   @id @default(uuid())
+  id            String       @id @default(uuid())
   quizId        String
-  quiz          Quiz     @relation(fields: [quizId], references: [id])
-  text          String   // Question text
-  type          String   // MCQ, True/False, Fill-in-the-blank
-  options       String[] // Multiple choice options
+  quiz          Quiz         @relation(fields: [quizId], references: [id])
+  text          String       // Question text
+  type          String       // MCQ, True/False, Fill-in-the-blank
+  options       String[]     // Multiple choice options
   correctAnswer String
-  responses     UserResponse[] // Track user responses per question
+  answers       UserResponse[] // Track user responses per question
 }
 
-
 model QuizAttempt {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  quizId    String
-  quiz      Quiz     @relation(fields: [quizId], references: [id])
-  score     Int      // Total correct answers
-  responses UserResponse[] // Store responses per attempt
-  createdAt DateTime @default(now())
+  id         String       @id @default(uuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id])
+  quizId     String
+  quiz       Quiz         @relation(fields: [quizId], references: [id])
+  score      Int          // Total correct answers
+  answers    UserResponse[] // Store responses per attempt
+  createdAt  DateTime     @default(now())
 }
 
 model UserResponse {
-  id            String   @id @default(uuid())
-  attemptId     String
-  attempt       QuizAttempt @relation(fields: [attemptId], references: [id])
-  questionId    String
-  question      Question   @relation(fields: [questionId], references: [id])
-  selectedAnswer String   // User's chosen answer
-  isCorrect     Boolean   // Whether the answer was correct
-  createdAt     DateTime @default(now())
+  id             String       @id @default(uuid())
+  attemptId      String
+  attempt        QuizAttempt  @relation(fields: [attemptId], references: [id])
+  questionId     String
+  question       Question     @relation(fields: [questionId], references: [id])
+  selectedAnswer String       // User's chosen answer
+  isCorrect      Boolean      // Whether the answer was correct
+  createdAt      DateTime     @default(now())
 }
-

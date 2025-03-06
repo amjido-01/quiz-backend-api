@@ -8,8 +8,8 @@ import { getQuizCategories } from "../controllers/quizController/getQuizByCatego
 const router = Router();
 
 router.get("/categories", getQuizCategories);
-router.get("/quizzes", getAllQuizzes); 
-router.get("/quizzes/:id", getQuizById);
-router.post("/quizzes", createQuiz); 
+router.get("/", getAllQuizzes); 
+router.get("/:id", getQuizById);
+router.post("/", createQuiz); 
 
 export default router;

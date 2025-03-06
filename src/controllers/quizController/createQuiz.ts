@@ -33,8 +33,8 @@ export const createQuiz = async (req: Request, res: Response): Promise<any> => {
       const createdQuestions = await prisma.question.createMany({
         data: questions.map((q: any) => ({
           quizId: newQuiz.id, // Explicitly linking the question to the quiz
-          text: q.text,
-          type: q.type,
+          text: q.questionText, // ✅ Correct field name
+          type: q.type || "MCQ", // ✅ Set default type
           options: q.options,
           correctAnswer: q.correctAnswer,
         })),
