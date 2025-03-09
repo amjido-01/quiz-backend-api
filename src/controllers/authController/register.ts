@@ -4,10 +4,11 @@ import prisma from "../../config/db";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwtUtils";
 
 export const register = async (req: Request, res: Response): Promise<any> => {
-    const {name, email, password} = req.body;
+    const {username, email, password} = req.body;
+    console.log(username)
     try {
 
-        if (!name || !email || !password) return res.status(400).json({message: "please provide all inputs, oo"})
+        if (!username || !email || !password) return res.status(400).json({message: "please provide all inputs, oo"})
 
         const existingUser = await prisma.user.findUnique({
             where: {
@@ -27,7 +28,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
 
         const user = await prisma.user.create({
             data: {
-                name,
+                username,
                 email,
                 password: hashedPassword
             }
@@ -65,7 +66,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
             responseBody: {
                 user: {
                     id: updatedUser.id,
-                    name: updatedUser.name,
+                    username: updatedUser.username,
                     email: updatedUser.email,
                   },
                 accessToken,
