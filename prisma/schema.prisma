@@ -17,10 +17,27 @@ model User {
   createdAt   DateTime     @default(now())
 }
 
+model Category {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  topics      Topic[]
+  createdAt   DateTime @default(now())
+}
+
+model Topic {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  quizzes     Quiz[]
+  createdAt   DateTime @default(now())
+}
+
 model Quiz {
   id          String       @id @default(uuid())
   title       String
-  category    String
+  topicId     String
+  topic       Topic        @relation(fields: [topicId], references: [id])
   difficulty  String       // Easy, Medium, Hard
   questions   Question[]
   attempts    QuizAttempt[]
