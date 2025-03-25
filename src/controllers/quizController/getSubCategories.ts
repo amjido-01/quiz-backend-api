@@ -1,22 +1,30 @@
 import { Request, Response } from "express";
 import prisma from "../../config/db";
 
-// Define subcategories for each category
-const subcategoryMap: Record<string, string[]> = {
-  science: ["Physics", "Biology", "Chemistry", "Astronomy"],
-  mathematics: ["General", "Algebra", "Geometry", "Calculus", "Statistics"],
-  history: ["Ancient", "Modern", "World", "American"],
-  technology: ["AI", "Cybersecurity", "Web Development", "Data Science"],
-};
-
 export const getSubCategories = async (req: Request, res: Response): Promise<any> => {
-  const category = req.query.category;
+  try {
+    const { category } = req.query;
 
-  if (!category || typeof category !== "string") {
-    return res.status(400).json({ error: "Category is required and must be a string" });
+    if (!category || typeof category !== "string") {
+      return res.status(400).json({ error: "Category is required and must be a string" });
+    }
+
+    // Find the category by name
+    const categoryData = await prisma.category.findUnique({
+      where: { name: category },
+      include: { topics: true }, // Fetch associated topics (subcategories)
+    });
+
+    if (!categoryData) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    // Extract topic names as subcategories
+    const subcategories = categoryData.topics.map((topic) => topic.name);
+
+    return res.json({ subcategories });
+  } catch (error) {
+    console.error("Error fetching subcategories:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-
-  const subcategories = subcategoryMap[category.toLowerCase()] || [];
-
-  return res.json({ subcategories });
 };
