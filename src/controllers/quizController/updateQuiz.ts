@@ -9,7 +9,7 @@ import prisma from "../../config/db";
  */
 export const updateQuiz = async (req: Request, res: Response): Promise<any> => {
     const { id } = req.params;
-    const { title, category, difficulty, questions } = req.body;
+    const { title, topic, difficulty, questions } = req.body;
   
     try {
       // Check if the quiz exists
@@ -26,7 +26,7 @@ export const updateQuiz = async (req: Request, res: Response): Promise<any> => {
         where: { id },
         data: {
           title: title || existingQuiz.title,
-          category: category || existingQuiz.category,
+          topicId: topic || existingQuiz.topicId,
           difficulty: difficulty || existingQuiz.difficulty,
         },
       });

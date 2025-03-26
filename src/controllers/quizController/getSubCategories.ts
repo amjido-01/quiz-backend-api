@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../../config/db";
+import { equal } from "assert";
 
 export const getSubCategories = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -10,10 +11,13 @@ export const getSubCategories = async (req: Request, res: Response): Promise<any
     }
 
     // Find the category by name
-    const categoryData = await prisma.category.findUnique({
-      where: { name: category },
+    const categoryData = await prisma.category.findFirst({
+      where: { 
+        name: { equals: category, mode: "insensitive" } 
+      },
       include: { topics: true }, // Fetch associated topics (subcategories)
     });
+    
 
     if (!categoryData) {
       return res.status(404).json({ error: "Category not found" });

@@ -16,9 +16,15 @@ export const getAllQuizzes = async (req: Request, res: Response): Promise<any> =
       where: {
         topic: {
           category: {
-            name: category ? String(category).toLowerCase() : undefined, // Filter by category name
+            name: {
+              equals: category ? String(category).toLowerCase() : undefined,
+              mode: "insensitive", // Makes it case insensitive
+            },
           },
-          name: subcategory ? String(subcategory).toLowerCase() : undefined, // Filter by topic (subcategory)
+          name: {
+            equals: subcategory ? String(subcategory).toLowerCase() : undefined,
+            mode: "insensitive",
+          },
         },
         difficulty: difficulty ? String(difficulty).toLowerCase() : undefined,
       },

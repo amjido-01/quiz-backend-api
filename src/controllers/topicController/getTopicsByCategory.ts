@@ -12,8 +12,10 @@ export const getTopicsByCategory = async (req: Request, res: Response): Promise<
         const topics = await prisma.topic.findMany({
             where: {
                 category: {
-                    equals: String(category).toLowerCase(),
-                    mode: "insensitive"
+                    name: {
+                        equals: String(category),
+                        mode: "insensitive"
+                    }
                 }
             }
         });
@@ -28,3 +30,4 @@ export const getTopicsByCategory = async (req: Request, res: Response): Promise<
         return res.status(500).json({ message: "Internal Server Error" });
     }
 };
+

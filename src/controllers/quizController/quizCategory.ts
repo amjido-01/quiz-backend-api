@@ -22,8 +22,8 @@ export const createCategory = async (req: Request, res: Response): Promise<any> 
       });
   
       res.status(201).json(category);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error); // Log error for debugging
-      res.status(500).json({ error: "Failed to create category", details: error.message });
+      res.status(500).json({ error: "Failed to create category", details: error });
     }
 };
