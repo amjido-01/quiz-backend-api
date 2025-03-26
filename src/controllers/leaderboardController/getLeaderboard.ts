@@ -11,7 +11,7 @@ export const getLeaderboard = async (req: Request, res: Response) => {
         // Fetch top players based on highest scores
         const leaderboard = await prisma.quizAttempt.findMany({
             select: {
-                user: { select: { id: true, name: true } }, // Get user info
+                user: { select: { id: true, username: true } }, // Get user info
                 score: true,
                 quiz: { select: { title: true } }, // Get quiz title
                 createdAt: true,
