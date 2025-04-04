@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { startQuizAttempt } from "../controllers/quizController/startQuizAttempt";
+import { startQuizAttempt } from "../controllers/quizAttemptController/startQuizAttempt";
 
 const router = Router();
 

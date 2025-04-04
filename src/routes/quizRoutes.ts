@@ -5,6 +5,8 @@ import { getQuizById } from "../controllers/quizController/getQuizById";
 import { getQuizCategories } from "../controllers/quizController/getQuizByCategories";
 import { createCategory } from "../controllers/quizController/quizCategory";
 import { getSubCategories } from "../controllers/quizController/getSubCategories";
+import { recentQuiz } from "../controllers/quizController/recentQuiz";
+import { authenticateToken } from "../middleware/auth";
 
 const router = Router();
 
@@ -13,6 +15,7 @@ router.get("/subcategories", getSubCategories)
 router.get("/", getAllQuizzes); 
 router.get("/:id", getQuizById);
 router.post("/", createQuiz); 
+router.get("/recent", authenticateToken,  recentQuiz)
 router.post("/categories", createCategory)
 
 export default router;

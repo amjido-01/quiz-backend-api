@@ -51,7 +51,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use("/api/v1", userRoutes)
 app.use("/api/v1", topicRoutes)
 app.use("/api/v1/quizzes", quizRoutes); 
-app.use("/api/v1/quiz-attempts", quizAttemptRoutes)
+app.use("/api/v1", quizAttemptRoutes)
 
 
 export default app;

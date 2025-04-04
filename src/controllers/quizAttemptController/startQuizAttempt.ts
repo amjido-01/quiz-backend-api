@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../../config/db";
 
-
 /**
  * @route   POST /api/quiz/attempt
  * @desc    Create a quiz attempt when the user starts a quiz
