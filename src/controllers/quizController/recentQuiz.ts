@@ -10,14 +10,15 @@ export const recentQuiz = async (req: Request, res: Response): Promise<any> => {
           responseBody: null
       });
   }
-
+  console.log(userData.id)
     try {
         // Fetch recent quiz attempts by the user
         const recentQuizzes = await prisma.quizAttempt.findMany({
-          where: { id: userData.id },
+          where: { userId: userData.id },
           orderBy: { createdAt: "desc" },
           take: 5, // Get the last 5 quizzes
           select: {
+            id: true,
             quiz: {
               select: {
                 title: true,
@@ -35,9 +36,9 @@ export const recentQuiz = async (req: Request, res: Response): Promise<any> => {
             createdAt: true,
           },
         });
-    
         // Format response
         const response = recentQuizzes.map((attempt) => ({
+          id: attempt.id,
           title: attempt.quiz.title,
           topic: attempt.quiz.topic.name,
           category: attempt.quiz.topic.category.name,

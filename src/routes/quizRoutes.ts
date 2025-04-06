@@ -6,16 +6,22 @@ import { getQuizCategories } from "../controllers/quizController/getQuizByCatego
 import { createCategory } from "../controllers/quizController/quizCategory";
 import { getSubCategories } from "../controllers/quizController/getSubCategories";
 import { recentQuiz } from "../controllers/quizController/recentQuiz";
+import { recentQuizById } from "../controllers/quizController/recentQuizById";
 import { authenticateToken } from "../middleware/auth";
 
 const router = Router();
 
-router.get("/categories", getQuizCategories);
-router.get("/subcategories", getSubCategories)
-router.get("/", getAllQuizzes); 
+router.get("/categories", authenticateToken, getQuizCategories);
+router.get("/subcategories", getSubCategories);
+
+// ❗ More specific routes must come before dynamic ones like `/:id`
+router.get("/recent/:id", authenticateToken, recentQuizById);
+router.get("/recent", authenticateToken, recentQuiz);
+
+router.get("/", getAllQuizzes);
 router.get("/:id", getQuizById);
-router.post("/", createQuiz); 
-router.get("/recent", authenticateToken,  recentQuiz)
-router.post("/categories", createCategory)
+
+router.post("/", createQuiz);
+router.post("/categories", createCategory);
 
 export default router;
