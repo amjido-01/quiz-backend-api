@@ -6,6 +6,7 @@ import userRoutes from "./routes/userRoutes"
 import quizRoutes from "./routes/quizRoutes"
 import quizAttemptRoutes from "./routes/quizAttemptRoutes" 
 import topicRoutes from "./routes/topicRoutes"
+import recentQuizRoutes from "./routes/recentQuizRoutes"
  
 const app: Application = express();
 
@@ -52,6 +53,7 @@ app.use("/api/v1", userRoutes)
 app.use("/api/v1", topicRoutes)
 app.use("/api/v1/quizzes", quizRoutes); 
 app.use("/api/v1", quizAttemptRoutes)
+app.use("/api/v1/recent", recentQuizRoutes);
 
 
 export default app;

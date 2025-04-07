@@ -10,7 +10,7 @@ export const recentQuiz = async (req: Request, res: Response): Promise<any> => {
           responseBody: null
       });
   }
-  console.log(userData.id)
+
     try {
         // Fetch recent quiz attempts by the user
         const recentQuizzes = await prisma.quizAttempt.findMany({

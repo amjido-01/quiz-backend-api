@@ -2,22 +2,37 @@ import { Request, Response } from "express";
 import prisma from "../../config/db";
 
 export const recentQuizById = async (req: Request, res: Response): Promise<any> => {
-    let userData = await (req as any)?.user
+  const userData = (req as any)?.user;
+  const { id } = req.params;
+
+  console.log(userData, id, "ddd")
 
   if (!userData?.id) {
     return res.status(400).json({
       responseSuccessful: false,
-      message: "User ID is required",
+      message: "User not authenticated",
+      responseBody: null,
+    });
+  }
+
+  if (!id) {
+    return res.status(400).json({
+      responseSuccessful: false,
+      message: "Quiz Attempt ID is required",
       responseBody: null,
     });
   }
 
   try {
-    const recentQuizzes = await prisma.quizAttempt.findMany({
-      where: { userId: userData?.id},
-      orderBy: { createdAt: "desc" },
-      take: 5,
+    const attempt = await prisma.quizAttempt.findFirst({
+      where: {
+        id,
+        userId: userData.id, // Ensures user owns this attempt
+      },
       select: {
+        id: true,
+        score: true,
+        createdAt: true,
         quiz: {
           select: {
             title: true,
@@ -31,23 +46,29 @@ export const recentQuizById = async (req: Request, res: Response): Promise<any> 
             },
           },
         },
-        id: true,
-        score: true,
-        createdAt: true,
       },
     });
 
-    const response = recentQuizzes.map((attempt) => ({
+    if (!attempt) {
+      return res.status(404).json({
+        responseSuccessful: false,
+        message: "Quiz attempt not found.",
+        responseBody: null,
+      });
+    }
+
+    const response = {
+      id: attempt.id,
       title: attempt.quiz.title,
       topic: attempt.quiz.topic.name,
       category: attempt.quiz.topic.category.name,
       score: attempt.score,
       date: attempt.createdAt,
-    }));
+    };
 
-    res.json({ recentQuizzes: response });
+    res.json({ recentQuiz: response });
   } catch (error) {
-    console.error("Error fetching recent quizzes:", error);
+    console.error("Error fetching recent quiz by ID:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

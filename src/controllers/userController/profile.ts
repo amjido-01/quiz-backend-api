@@ -21,7 +21,6 @@ export const profile = async (req: Request, res: Response): Promise<any> => {
             //     workspaces: true
             // }
         })
-        console.log("hello", user)
         if (!user) {
             return res.status(404).json({ message: 'User not found ,,,,,,' });
           }
