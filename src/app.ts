@@ -12,7 +12,7 @@ const app: Application = express();
 
 // CORS Configuration 
 const corsOptions = {
-  origin: "https://quiz-client-taupe.vercel.app/", //, https://quiz-client-taupe.vercel.app/   Replace with your frontend URL
+  origin: "https://quiz-client-taupe.vercel.app", //, https://quiz-client-taupe.vercel.app/   Replace with your frontend URL
   credentials: true, // Allow server to accept cookies
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
