@@ -5,7 +5,6 @@ export const recentQuizById = async (req: Request, res: Response): Promise<any> 
   const userData = (req as any)?.user;
   const { id } = req.params;
 
-  console.log(userData, id, "ddd")
 
   if (!userData?.id) {
     return res.status(400).json({
