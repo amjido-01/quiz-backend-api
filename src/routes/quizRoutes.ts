@@ -10,12 +10,12 @@ import { authenticateToken } from "../middleware/auth";
 const router = Router();
 
 router.get("/categories", authenticateToken, getQuizCategories);
-router.get("/subcategories", getSubCategories);
+router.get("/subcategories", authenticateToken, getSubCategories);
 
-router.get("/", getAllQuizzes);
-router.get("/:id", getQuizById);
+router.get("/", authenticateToken, getAllQuizzes);
+router.get("/:id", authenticateToken, getQuizById);
 
-router.post("/", createQuiz);
-router.post("/categories", createCategory);
+router.post("/", authenticateToken, createQuiz);
+router.post("/categories", authenticateToken, createCategory);
 
 export default router;
